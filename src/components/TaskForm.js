@@ -10,7 +10,7 @@ function TaskForm({ task = {}, saveTask }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("General");
-  const [categories, setCategories] = useState([
+  const [categories] = useState([
     "Work",
     "Personal",
     "Learning",
