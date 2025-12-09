@@ -248,3 +248,206 @@ footer a {
   background: #f9f9f9 !important;
 }
 
+
+
+
+/* ---------------- Mobile-friendly TaskTable (≤ 576px) ---------------- */
+@media (max-width: 576px) {
+  /* ensure horizontal scrolling still works for other tables if needed */
+  .tasktable-responsive { overflow-x: hidden; }
+
+  /* hide the thead to avoid duplication */
+  .task-table thead {
+    display: none;
+  }
+
+  /* Each row becomes a block (card-like) */
+  .task-table tbody tr {
+    display: block;
+    margin-bottom: 0.85rem;
+    border-radius: 10px;
+    padding: 0.6rem;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+
+  /* Make each cell a flex row: label on left, value on right */
+  .task-table tbody tr td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 8px !important;
+    font-size: 0.88rem;
+    white-space: normal;
+  }
+
+  /* show label using data-label attr */
+  .task-table tbody tr td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    margin-right: 12px;
+    color: #3b3b3b;
+    flex: 0 0 34%;
+    font-size: 0.82rem;
+  }
+
+  /* Title cell: allow description to wrap and appear under the title on small screens */
+  .task-table tbody tr td[data-label="Title"] {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .task-table tbody tr td[data-label="Title"]::before {
+    margin-bottom: 4px;
+  }
+  .task-table tbody tr td[data-label="Title"] .small {
+    color: #666;
+    font-size: 0.78rem;
+    margin-top: 2px;
+  }
+
+  /* Make icons & checkbox area more compact */
+  .task-table tbody tr td[data-label="Status"] {
+    gap: 8px;
+    justify-content: flex-start;
+  }
+  .status-icon {
+    font-size: 1.05rem !important;
+    margin-right: 6px;
+  }
+  .status-icon.active { color: green; }
+  .status-icon.completed { color: gray; }
+
+  /* Actions: stack buttons vertically and full-width for easy tapping */
+  .action-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  .action-buttons .btn {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 0.86rem;
+  }
+
+  /* Overdue date emphasis */
+  .task-table tbody tr td[data-label="Due Date"][style*="red"],
+  .task-table tbody tr td[data-label="Due Date"] > .overdue {
+    color: red;
+    font-weight: 600;
+  }
+
+  /* No tasks message */
+  .task-table tbody td.text-muted {
+    padding: 12px !important;
+    font-size: 0.95rem;
+    text-align: center;
+  }
+}
+
+
+/* ---------------- Dashboard Mobile Responsive (≤ 576px) ---------------- */
+
+@media (max-width: 576px) {
+
+  /* Container spacing */
+  .dashboard-container {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  /* Filter buttons stacked */
+  .filter-btn-group {
+    flex-direction: column !important;
+    width: 100%;
+  }
+
+  .filter-btn-group .filter-btn {
+    width: 100%;
+    padding: 14px !important;
+    font-size: 16px !important;
+    border-radius: 10px !important;
+  }
+
+  /* Card becomes full width */
+  .dashboard-card {
+    padding: 15px !important;
+  }
+
+  /* Each task card spacing */
+  .dashboard-task {
+    padding: 12px !important;
+    background: #f8f8f8 !important;
+  }
+
+  /* Title adjustment */
+  .dashboard-card h4 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+}
+
+/* Footer default */
+footer.footer {
+  background-color: #0984e3;
+  color: black;
+  text-align: center;
+  padding: 1rem 0;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+/* Links */
+footer.footer a {
+  color: black;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+footer.footer a:hover {
+  color: #dfe6e9;
+}
+
+/* Stack vertically on mobile */
+@media (max-width: 576px) {
+  footer.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px; /* small spacing between lines */
+    text-align: center;
+  }
+
+  footer.footer p {
+    margin: 0;
+  }
+}
+
+/* Dark mode support */
+.dark-mode footer.footer {
+  background-color: #1f1f1f;
+  color: white;
+}
+
+.dark-mode footer.footer a {
+  color: white;
+}
+
+.dark-mode footer.footer a:hover {
+  color: #dfe6e9;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

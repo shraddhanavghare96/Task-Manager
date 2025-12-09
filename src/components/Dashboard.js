@@ -3,7 +3,6 @@ import React, { useState } from "react";
 function Dashboard({ tasks }) {
   const [selectedFilter, setSelectedFilter] = useState(null);
 
-  // Filter logic
   const getFilteredTasks = () => {
     if (!selectedFilter) return [];
 
@@ -18,53 +17,50 @@ function Dashboard({ tasks }) {
   const filtered = getFilteredTasks();
 
   return (
-    <div className="container mt-4">
-      <h2 className="mb-4">Dashboard</h2>
+    <div className="container mt-4 dashboard-container">
+      <h2 className="mb-4" style={{ color: "white" }}>Dashboard</h2>
 
       {/* FILTER BUTTONS */}
-<div className="d-flex gap-3 mb-4">
+      <div className="d-flex gap-3 mb-4 filter-btn-group">
+        <button
+          className="btn btn-primary filter-btn"
+          onClick={() => setSelectedFilter("all")}
+        >
+          All Tasks
+        </button>
 
-  <button
-    className="btn btn-primary filter-btn"
-    onClick={() => setSelectedFilter("all")}
-  >
-    All Tasks
-  </button>
+        <button
+          className="btn btn-success filter-btn"
+          onClick={() => setSelectedFilter("completed")}
+        >
+          Completed
+        </button>
 
-  <button
-    className="btn btn-success filter-btn"
-    onClick={() => setSelectedFilter("completed")}
-  >
-    Completed
-  </button>
+        <button
+          className="btn btn-warning filter-btn"
+          onClick={() => setSelectedFilter("pending")}
+        >
+          Pending
+        </button>
 
-  <button
-    className="btn btn-warning filter-btn"
-    onClick={() => setSelectedFilter("pending")}
-  >
-    Pending
-  </button>
+        <button
+          className="btn btn-info filter-btn"
+          onClick={() => setSelectedFilter("important")}
+        >
+          Important
+        </button>
 
-  <button
-    className="btn btn-info filter-btn"
-    onClick={() => setSelectedFilter("important")}
-  >
-    Important
-  </button>
+        <button
+          className="btn btn-secondary filter-btn"
+          onClick={() => setSelectedFilter(null)}
+        >
+          Clear
+        </button>
+      </div>
 
-  <button
-    className="btn btn-secondary filter-btn"
-    onClick={() => setSelectedFilter(null)}
-  >
-    Clear
-  </button>
-
-</div>
-
-
-      {/* SHOW TASKS ONLY AFTER CLICK */}
+      {/* SHOW FILTERED TASKS */}
       {selectedFilter && (
-        <div className="card p-3">
+        <div className="card p-3 dashboard-card">
           <h4 className="mb-3" style={{ textTransform: "capitalize" }}>
             {selectedFilter} Tasks
           </h4>
@@ -75,8 +71,7 @@ function Dashboard({ tasks }) {
             filtered.map(t => (
               <div
                 key={t.id}
-                className="p-2 border rounded mb-2"
-                style={{ background: "#f9f9f9" }}
+                className="p-2 border rounded mb-2 dashboard-task"
               >
                 <strong>{t.title}</strong>
                 <br />

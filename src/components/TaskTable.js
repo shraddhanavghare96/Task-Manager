@@ -2,8 +2,8 @@ import React from "react";
 
 function TaskTable({ tasks = [], deleteTask, toggleComplete, setModalTask }) {
   return (
-    <div className="table-responsive mt-4">
-      <table className="table table-bordered align-middle">
+    <div className="table-responsive mt-4 tasktable-responsive">
+      <table className="table table-bordered align-middle task-table">
         <thead className="table-light">
           <tr>
             <th style={{ width: "40%" }}>Title</th>
@@ -16,7 +16,6 @@ function TaskTable({ tasks = [], deleteTask, toggleComplete, setModalTask }) {
         </thead>
 
         <tbody>
-          {/* No Task Message */}
           {tasks.length === 0 && (
             <tr>
               <td colSpan="6" className="text-center text-muted">
@@ -33,28 +32,50 @@ function TaskTable({ tasks = [], deleteTask, toggleComplete, setModalTask }) {
 
             return (
               <tr key={task.id} className={task.completed ? "table-success" : ""}>
-                <td style={{ textAlign: "left" }}>
+                <td data-label="Title" style={{ textAlign: "left" }}>
                   <strong>{task.title}</strong>
                   <div className="small text-muted">{task.description}</div>
                 </td>
 
-                <td>{task.category || "---"}</td>
-                <td>{task.priority}</td>
+                <td data-label="Category">{task.category || "---"}</td>
+                <td data-label="Priority">{task.priority}</td>
 
-                <td style={{ color: overdue ? "red" : "inherit" }}>
+                <td
+                  data-label="Due Date"
+                  style={{ color: overdue ? "red" : "inherit" }}
+                >
                   {task.dueDate || "---"}
                 </td>
 
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={!!task.completed}
-                    onChange={() => toggleComplete(task.id)}
-                  />
+                {/* STATUS COLUMN */}
+                <td data-label="Status" className="text-center">
+                  {!task.completed && (
+                    <i
+                      className="bi bi-check-circle-fill"
+                      style={{ color: "green", fontSize: "1.4rem" }}
+                      title="Active"
+                    />
+                  )}
+                  {task.completed && (
+                    <i
+                      className="bi bi-check2-square"
+                      style={{ color: "gray", fontSize: "1.4rem" }}
+                      title="Completed"
+                    />
+                  )}
+
+                  <div>
+                    <input
+                      type="checkbox"
+                      checked={!!task.completed}
+                      onChange={() => toggleComplete(task.id)}
+                    />
+                  </div>
                 </td>
 
-                <td>
-                  <div className="d-flex gap-2">
+                {/* ACTIONS */}
+                <td data-label="Actions">
+                  <div className="d-flex flex-wrap gap-2 action-buttons">
                     <button
                       className="btn btn-sm btn-warning"
                       onClick={() => setModalTask(task)}

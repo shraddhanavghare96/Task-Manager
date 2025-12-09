@@ -19,6 +19,7 @@ function TaskForm({ task = {}, saveTask }) {
   ]);
   const [priority, setPriority] = useState("Normal");
   const [dueDate, setDueDate] = useState("");
+  const [completed, setCompleted] = useState(false);
 
   useEffect(() => {
     if (task && task.id) {
@@ -27,12 +28,14 @@ function TaskForm({ task = {}, saveTask }) {
       setCategory(task.category || "General");
       setPriority(task.priority || "Normal");
       setDueDate(task.dueDate || "");
+      setCompleted(task.completed || false);
     } else {
       setTitle("");
       setDescription("");
       setCategory("General");
       setPriority("Normal");
       setDueDate("");
+      setCompleted(false);
     }
   }, [task]);
 
@@ -45,7 +48,7 @@ function TaskForm({ task = {}, saveTask }) {
       category: category.trim() || "General",
       priority,
       dueDate: dueDate || "",
-      completed: task.completed || false,
+      completed,
       important: task.important || false,
       createdAt: task.createdAt || new Date().toISOString(),
     };
@@ -80,7 +83,7 @@ function TaskForm({ task = {}, saveTask }) {
           </Form.Group>
 
           {/* Category & Priority */}
-          <div className="d-flex gap-2 mb-2">
+          <div className="d-flex gap-2 mb-2 flex-wrap">
             <Form.Group className="flex-fill">
               <Form.Label>Category</Form.Label>
               <Form.Select
@@ -115,6 +118,30 @@ function TaskForm({ task = {}, saveTask }) {
               type="date"
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
+            />
+          </Form.Group>
+
+          {/* Status */}
+          <Form.Group className="mb-2 d-flex align-items-center gap-2">
+            <Form.Label className="mb-0">Status:</Form.Label>
+            {!completed ? (
+              <i
+                className="bi bi-check-circle-fill"
+                style={{ color: "green", fontSize: "1.4rem" }}
+                title="Active"
+              ></i>
+            ) : (
+              <i
+                className="bi bi-check2-square"
+                style={{ color: "gray", fontSize: "1.4rem" }}
+                title="Completed"
+              ></i>
+            )}
+            <Form.Check
+              type="checkbox"
+              label="Completed"
+              checked={completed}
+              onChange={(e) => setCompleted(e.target.checked)}
             />
           </Form.Group>
         </Modal.Body>

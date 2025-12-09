@@ -17,9 +17,10 @@ import { ToastContainer, toast } from "react-toastify";
 import { motion } from "framer-motion";
 
 import "./App.css";
+
 import "react-calendar/dist/Calendar.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 
 /* --------------------------- ANIMATED PAGE WRAPPER --------------------------- */
@@ -37,14 +38,12 @@ function AnimatedPage({ children }) {
 }
 
 
-/* --------------------------- MAIN ROUTES FIXED --------------------------- */
-function MainRoutes(props) {
-  const { tasks, setTasks, search, setSearch, setModalTask, setFilter } = props;
-
+/* --------------------------- MAIN ROUTES (INSIDE SAME FILE) --------------------------- */
+function MainRoutes({ tasks, setTasks, search, setSearch, setModalTask, setFilter }) {
   return (
     <Routes>
 
-      {/* --- HOME / DASHBOARD ROUTE (FIXED) --- */}
+      {/* HOME / DASHBOARD */}
       <Route
         path="/"
         element={
@@ -54,14 +53,16 @@ function MainRoutes(props) {
         }
       />
 
-      {/* --- TASK LIST PAGE --- */}
+      {/* TASK PAGE */}
       <Route
         path="/tasks"
         element={
           <AnimatedPage>
             <SearchBar search={search} setSearch={setSearch} />
+
             <div className="d-flex justify-content-between align-items-center mb-3">
-              <div />
+              <div></div>
+
               <button className="btn btn-primary" onClick={() => setModalTask({})}>
                 + Add Task
               </button>
@@ -111,7 +112,7 @@ function MainRoutes(props) {
         }
       />
 
-      {/* --- CALENDAR ROUTE --- */}
+      {/* CALENDAR */}
       <Route
         path="/calendar"
         element={
@@ -121,7 +122,7 @@ function MainRoutes(props) {
         }
       />
 
-      {/* --- CHARTS ROUTE --- */}
+      {/* CHARTS */}
       <Route
         path="/charts"
         element={
@@ -131,12 +132,12 @@ function MainRoutes(props) {
         }
       />
 
+      {/* OTHER ROUTES */}
       <Route path="/settings" element={<AnimatedPage><Settings /></AnimatedPage>} />
       <Route path="/about" element={<AnimatedPage><About /></AnimatedPage>} />
       <Route path="/contact" element={<AnimatedPage><Contact /></AnimatedPage>} />
 
       <Route path="*" element={<AnimatedPage><div>Page not found</div></AnimatedPage>} />
-
     </Routes>
   );
 }
@@ -149,10 +150,9 @@ function AppWrapper() {
   const [search, setSearch] = useState("");
   const [darkMode, setDarkMode] = useState(false);
 
-  // NEW FILTER
   const [filter, setFilter] = useState("all");
 
-  // FILTER LOGIC
+  // Filtering logic
   const filteredTasks = tasks.filter(t => {
     if (filter === "all") return true;
     if (filter === "completed") return t.completed;
@@ -161,12 +161,12 @@ function AppWrapper() {
     return true;
   });
 
-  /* Load default tasks only first time */
+  /* Load tasks */
   useEffect(() => {
-    const storedTasks = localStorage.getItem("tasks");
+    const saved = localStorage.getItem("tasks");
 
-    if (storedTasks === null) {
-      const defaultTasks = [
+    if (!saved) {
+      const defaults = [
         {
           id: 1,
           title: "Prepare Project Report",
@@ -199,22 +199,22 @@ function AppWrapper() {
         }
       ];
 
-      setTasks(defaultTasks);
-      localStorage.setItem("tasks", JSON.stringify(defaultTasks));
+      setTasks(defaults);
+      localStorage.setItem("tasks", JSON.stringify(defaults));
     } else {
-      setTasks(JSON.parse(storedTasks));
+      setTasks(JSON.parse(saved));
     }
 
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") setDarkMode(true);
   }, []);
 
-  /* Save tasks to storage */
+  // Save tasks
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  /* Apply dark mode */
+  // Dark mode
   useEffect(() => {
     document.body.className = darkMode ? "dark-mode" : "";
   }, [darkMode]);
@@ -245,7 +245,7 @@ function AppWrapper() {
           <TaskForm
             task={modalTask}
             saveTask={(task) => {
-              if (!task) { setModalTask(null); return; }
+              if (!task) return setModalTask(null);
 
               if (task.id) {
                 setTasks(prev => prev.map(t => t.id === task.id ? { ...t, ...task } : t));
