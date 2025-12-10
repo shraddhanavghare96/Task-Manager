@@ -390,7 +390,7 @@ footer a {
 /* Footer default */
 footer.footer {
   background-color: #0984e3;
-  color: black;
+  color: white;
   text-align: center;
   padding: 1rem 0;
   width: 100%;
@@ -399,7 +399,7 @@ footer.footer {
 
 /* Links */
 footer.footer a {
-  color: black;
+  color: white;
   text-decoration: none;
   font-weight: 500;
 }
